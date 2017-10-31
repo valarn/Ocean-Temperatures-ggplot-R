@@ -1,0 +1,5 @@
+
+# do not include data files and r history
+.Rhistory/
+data/
+
