@@ -33,4 +33,6 @@ that discusses the sources for the data and how it has been handled during prepa
 
 2- Navigate to the cloned repo directory
 
-3- Copy the command `./run START END` and hit Enter. Replace `START` and `END` with the year numbers you want to clean (it will clean the years from START to END inclusive) 
+3- Copy the command `./run START END` and hit Enter. Replace `START` and `END` with the year numbers you want to clean (it will clean the years from START to END inclusive). If you want to clean the data for one year, just the same value for both. 
+
+After running the script (manually or using the script), the cleaned data will be saved in `cleaned_data`. 
