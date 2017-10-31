@@ -10,8 +10,8 @@ CURL="curl -O"
 YEAR=$1
 
 # creates a directory for current year
-mkdir $YEAR
-cd $YEAR
+eval "mkdir -p data/${YEAR}"
+eval "cd data/${YEAR}"
 
 # downloads the files of all months of YEAR
 for i in "${MONTHS[@]}"

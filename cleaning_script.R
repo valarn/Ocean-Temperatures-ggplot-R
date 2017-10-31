@@ -1,20 +1,34 @@
+#!/usr/bin/env Rscript
+args = commandArgs(trailingOnly=TRUE)
+
+if (length(args) >= 4) {
+  START = as.numeric(args[1])
+  END = as.numeric(args[2])
+  SAVE_PATH = args[3]
+  SAVE_DIR = args[4]
+} else {
+  START = 2001
+  END = 2016
+  SAVE_PATH = "./"               # path for saving and opening data files
+  SAVE_DIR = "cleaned_data"   # name of directory to save the clean data
+}
+
+# info to save the clean data
+FILENAME = "df"
+SAVE_EXT = ".Rdata"
+
 # info to construct the filenames
 MONTHS = c("jan", "feb", "mar",
            "apr", "may", "jun",
            "jul", "aug", "sep",
            "oct", "nov", "dec")
 EXT = ".txt"
-PATH = "~/Desktop/school/senior/ma415/project2/ma415-ocean-temp/"
-
-# info to save the clean data
-FILENAME = "df"
-SAVE_DIR = "clean_data"
-SAVE_EXT = ".Rdata"
+DATA_PATH = './data/'
 
 # cleans the data for a specific year == YEAR
 cleanAllMonthsOfYear <- function(YEAR) {
   # start constructing the file path 
-  FILES_PATH = paste(PATH, YEAR, "/VOSClim_GTS_", sep ='')
+  FILES_PATH = paste(DATA_PATH, YEAR, "/VOSClim_GTS_", sep ='')
   
   # data fram variable of YEAR
   df.year <- NULL
@@ -25,6 +39,7 @@ cleanAllMonthsOfYear <- function(YEAR) {
     filename <- paste(FILES_PATH, MONTHS[i], "_", YEAR, EXT, sep = "")
     
     # read the file
+    print(filename)
     current <- readLines(filename)
     
     # temporary dataframe for current month months[i]
@@ -65,17 +80,18 @@ cleanAllMonthsOfYear <- function(YEAR) {
   }
   
   # create the save path for the clean data ans save it
-  SAVE_PATH = paste(PATH, SAVE_DIR, "/", FILENAME, "_", YEAR, SAVE_EXT, sep = "")
+  SAVE_PATH = paste(SAVE_PATH, SAVE_DIR, "/", FILENAME, "_", YEAR, SAVE_EXT, sep = "")
+  print(SAVE_PATH)
   save(df.year, file = SAVE_PATH)
 }
 
 # cleans all data for years 2001 - 2006
-cleanAllData <- function() {
-  for (k in 2001:2001) {
+cleanAllData <- function(start, end) {
+  for (k in start:end) {
     str_frm = toString(k)          # converts year to a string in preparation to call the function
     cleanAllMonthsOfYear(str_frm)  # calls the function for current year
   }
 }
 
 # comment in the line below to clean all data from 2001-2016
-#cleanAllData()
+cleanAllData(START, END)
