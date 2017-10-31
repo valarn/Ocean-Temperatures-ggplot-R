@@ -2,7 +2,8 @@
 
 ## About the project: 
 
-### Goal: data reading, cleaning, and organizing project in R. 
+### Goal:
+data reading, cleaning, and organizing project in R. 
 
 ### Data Source:
 We are focusing on maritime temperature data – air temperature and sea surface temperature. We are
@@ -20,12 +21,16 @@ that discusses the sources for the data and how it has been handled during prepa
 ## How to run:
 
 ### Manual
-1- Download the data text files from the source above. Save the data in directory "data"
-2- Create the directory to save the cleaned data, call it "cleaned_data"
-3- Open cleaning_script.R and run the script
+1- Download the data text files from the source above. Save the data in directory `data`
+
+2- Create the directory to save the cleaned data, call it `cleaned_data`
+
+3- Open `cleaning_script.R` and run the script
 
 
 ### Script (bash only)
 1- Open the Terminal
+
 2- Navigate to the cloned repo directory
+
 3- Copy the command `./run START END` and hit Enter. Replace START and END with the year numbers you want to clean (it will clean the years from START to END inclusive) 
