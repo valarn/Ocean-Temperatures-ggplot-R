@@ -12,7 +12,8 @@ coverage is comprehensive in the US and includes coverage in the Atlantic and Pa
 coverage is not worldwide, however. In order to find data that in parts of the world not covered by
 NOAA, we are using data from the Voluntary Observing Ships (VOS) program http://www.vos.noaa.gov .
 
-### Outcome: The outcome of this project should be a dataset that is ready for analysis and a report or presentation
+### Outcome:
+The outcome of this project should be a dataset that is ready for analysis and a report or presentation
 that discusses the sources for the data and how it has been handled during preparation for analysis. 
 
 
