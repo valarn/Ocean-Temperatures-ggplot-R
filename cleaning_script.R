@@ -52,11 +52,15 @@ cleanAllMonthsOfYear <- function(YEAR) {
       subtmp <-
         paste0(substr(tmp, 1, 21), substr(tmp, 69, 73), substr(tmp, 84, 89))
       
-      # TODO: supress warnings when converting LAT and LON
       # isolate the Latitude and Longitude values to check if there are in our sub-region ranges
+      # since as.numeric() gives warnings if it finds NA, we need to temporarily suprress warnings
+      # source: https://stackoverflow.com/questions/16194212/how-to-suppress-warnings-globally-in-an-r-script
+      oldw <- getOption("warn")
+      options(warn = -1)
       LAT = as.numeric(substr(tmp, 13, 17))   # slices the row and converts to a number
-      LON = as.numeric(substr(tmp, 18, 21))   # slices the row and converts to a number
-      
+      LON = as.numeric(substr(tmp, 18, 21))
+      options(warn = oldw)
+
       # checks if LAT and LON are in the range
       if ((LAT %in% 600:2300) && (LON %in% 81:99)) {
         # add to the temporary data frame
