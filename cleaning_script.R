@@ -1,4 +1,8 @@
 #!/usr/bin/env Rscript
+require(maps)
+require(mapdata)
+library(ggplot2)
+library(ggrepel)
 args = commandArgs(trailingOnly=TRUE)
 
 if (length(args) >= 4) {
@@ -49,9 +53,8 @@ cleanAllMonthsOfYear <- function(YEAR) {
     for (j in 1:length(current)) {
       # get the row, and deparate the columns
       tmp <- current[j]
-      subtmp <-
-        paste0(substr(tmp, 1, 21), substr(tmp, 69, 73), substr(tmp, 84, 89))
-      
+      subtmp <- paste0(substr(tmp, 1, 21), substr(tmp, 69, 73), substr(tmp, 84, 89))
+
       # isolate the Latitude and Longitude values to check if there are in our sub-region ranges
       # since as.numeric() gives warnings if it finds NA, we need to temporarily suprress warnings
       # source: https://stackoverflow.com/questions/16194212/how-to-suppress-warnings-globally-in-an-r-script
@@ -59,12 +62,16 @@ cleanAllMonthsOfYear <- function(YEAR) {
       options(warn = -1)
       LAT = as.numeric(substr(tmp, 13, 17))   # slices the row and converts to a number
       LON = as.numeric(substr(tmp, 18, 21))
+      HOUR = as.numeric(substr(tmp, 9, 12))
       options(warn = oldw)
 
-      # checks if LAT and LON are in the range
-      if ((LAT %in% 600:2300) && (LON %in% 81:99)) {
+      # checks if LAT and LON are in the range 
+      # also checks if time when data is collected (hour) is 
+      # within 6 hours of noon 
+      # FIX: --> error in feb 2010 w/ && (HOUR %in% 600:1800)
+      if ((LAT %in% 600:2000) && (LON %in% 80:100)) {
         # add to the temporary data frame
-        df <- rbind(df, subtmp)
+          df <- rbind(df, subtmp)
       }
     }
     
@@ -75,21 +82,59 @@ cleanAllMonthsOfYear <- function(YEAR) {
     # name the columns
     names(data.clean.month) <-
       c("YR", "MO", "DY", "HR", "LAT", "LON", "IT", "AT", "SI", "SST")
-    
+  
     # omit all rows with "NA" values in any column
     data.clean.month <- na.omit(data.clean.month)
+    
+    #(Formatting) Fix Range of lat and AT and SST
+    if (nrow(data.clean.month) >= 1) {
+      for(i in 1:nrow(data.clean.month)){
+        data.clean.month$AT[i] <- toString(as.numeric(data.clean.month$AT[i])/10)
+        data.clean.month$SST[i] <- toString(as.numeric(data.clean.month$SST[i])/10)
+        data.clean.month$LAT[i] <- toString(floor(as.numeric(data.clean.month$LAT[i])/100))
+      }
+    }
     
     # add all the temporary data frame of the month to the data frame of the year
     df.year <- rbind(df.year, data.clean.month)
   }
   
+  global <- map_data("world")
+  ggplot() + geom_polygon(data = global, aes(x=long, y = lat, group = group)) +
+    coord_fixed(1.3)
+  
+  ggplot() +
+    geom_polygon(data = global, aes(x=long, y = lat, group = group), fill = NA, color = "red") +
+    coord_fixed(1.3)
+  
+  gg1 <- ggplot() +
+    geom_polygon(data = global, aes(x=long, y = lat, group = group), fill = "green", color = "black") +
+    coord_fixed(1.3)
+  gg1
+  
+  df2 <- data.frame(
+    long = as.numeric(df.year$LON),
+    lat = as.numeric(df.year$LAT),
+    stringsAsFactors = FALSE
+  )
+  
+  #xlim and ylim can be manipulated to zoom in or out of the map
+  final <-  gg1 +
+    geom_point(data=df2, aes(long, lat), colour="red", size=1) +
+    ggtitle("Subcontinent East") +
+    geom_text_repel(data=df2, aes(long, lat, label="")) + xlim(60,110) + ylim(0,40)
+
+  print(final)
+  
   # create the save path for the clean data ans save it
   SAVE_PATH = paste(SAVE_PATH, SAVE_DIR, "/", FILENAME, "_", YEAR, SAVE_EXT, sep = "")
   print(SAVE_PATH)
   save(df.year, file = SAVE_PATH)
+  final
 }
 
-# cleans all data for years 2001 - 2006
+
+# cleans all data for years 2001 - 2016
 cleanAllData <- function(start, end) {
   for (k in start:end) {
     str_frm = toString(k)          # converts year to a string in preparation to call the function
