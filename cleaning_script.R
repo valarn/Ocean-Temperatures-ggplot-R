@@ -66,8 +66,7 @@ cleanAllMonthsOfYear <- function(YEAR) {
       options(warn = oldw)
 
       # checks if LAT and LON are in the range 
-      # also checks if time when data is collected (hour) is 
-      # within 6 hours of noon 
+      # also checks if time when data is collected (hour) is within 6 hours of noon 
       # FIX: --> error in feb 2010 w/ && (HOUR %in% 600:1800)
       if ((LAT %in% 600:2000) && (LON %in% 80:100)) {
         # add to the temporary data frame
@@ -99,19 +98,23 @@ cleanAllMonthsOfYear <- function(YEAR) {
     df.year <- rbind(df.year, data.clean.month)
   }
   
+  #global map
   global <- map_data("world")
   ggplot() + geom_polygon(data = global, aes(x=long, y = lat, group = group)) +
     coord_fixed(1.3)
   
+  #add borders
   ggplot() +
     geom_polygon(data = global, aes(x=long, y = lat, group = group), fill = NA, color = "red") +
     coord_fixed(1.3)
   
+  #fill in 
   gg1 <- ggplot() +
     geom_polygon(data = global, aes(x=long, y = lat, group = group), fill = "green", color = "black") +
     coord_fixed(1.3)
   gg1
   
+  #specific latitude/longitude (of year)
   df2 <- data.frame(
     long = as.numeric(df.year$LON),
     lat = as.numeric(df.year$LAT),
