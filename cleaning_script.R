@@ -97,6 +97,7 @@ cleanAllMonthsOfYear <- function(YEAR) {
         total_rows = total_rows + 1
       }
     }
+ 
     # averege tem of each month 
     total_rows = total_rows*10
     AVE.AIR.TEMP = total_air_temp/total_rows
