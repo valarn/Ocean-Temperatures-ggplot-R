@@ -36,7 +36,7 @@ cleanAllMonthsOfYear <- function(YEAR) {
   
   # data fram variable of YEAR
   df.year <- NULL
-  
+  EDA.year = NULL
   # for every month
   for (i in 1:length(MONTHS)) {
     # construct the filename
@@ -48,7 +48,10 @@ cleanAllMonthsOfYear <- function(YEAR) {
     
     # temporary dataframe for current month months[i]
     df <- NULL
-    
+    EDA.Month = NULL
+    total_sea_temp = 0
+    total_air_temp = 0
+    total_rows = 0
     # for every row in the file
     for (j in 1:length(current)) {
       # get the row, and deparate the columns
@@ -63,8 +66,10 @@ cleanAllMonthsOfYear <- function(YEAR) {
       LAT = as.numeric(substr(tmp, 13, 17))   # slices the row and converts to a number
       LON = as.numeric(substr(tmp, 18, 21))
       HOUR = as.numeric(substr(tmp, 9, 12))
+      temp_air = as.numeric(substr(tmp, 70, 73))
+      temp_sea = as.numeric(substr(tmp, 86, 89))
       options(warn = oldw)
-
+ 
       # checks if LAT and LON are in the range 
       # also checks if time when data is collected (hour) is within 6 hours of noon 
       # FIX: --> error in feb 2010 w/ && (HOUR %in% 600:1800)
@@ -86,9 +91,19 @@ cleanAllMonthsOfYear <- function(YEAR) {
             substr(subtmp, 14, 15) <- "A "
             df <- rbind(df, subtmp)
           }
+
+	total_air_temp = sum(total_air_temp, temp_air, na.rm = TRUE)
+        total_sea_temp = sum(total_sea_temp, temp_sea, na.rm = TRUE)
+        total_rows = total_rows + 1
       }
     }
-    
+    # averege tem of each month 
+    total_rows = total_rows*10
+    AVE.AIR.TEMP = total_air_temp/total_rows
+    AVE.SEA.TEMP = total_sea_temp/total_rows
+    EDA.MONTH = cbind(MONTHS[i], AVE.SEA.TEMP, AVE.AIR.TEMP)
+    EDA.year = rbind(EDA.year, EDA.MONTH)
+
     # generate the columns with given sizes
     data.clean.month <-
       read.fwf(textConnection(df), widths = c(9, 4, 2, 12, 5, 4, 4, 4))
@@ -111,7 +126,9 @@ cleanAllMonthsOfYear <- function(YEAR) {
     
     # add all the temporary data frame of the month to the data frame of the year
     df.year <- rbind(df.year, data.clean.month)
+
   }
+  
   
   #global map
   global <- map_data("world")
@@ -139,16 +156,22 @@ cleanAllMonthsOfYear <- function(YEAR) {
   #xlim and ylim can be manipulated to zoom in or out of the map
   final <-  gg1 +
     geom_point(data=df2, aes(long, lat), colour="red", size=1) +
-    ggtitle("Subcontinent East") +
+    ggtitle(paste("Subcontinent East", YEAR, sep=" ")) +
     geom_text_repel(data=df2, aes(long, lat, label="")) + xlim(60,110) + ylim(0,40)
 
   print(final)
   
   # create the save path for the clean data ans save it
-  SAVE_PATH = paste(SAVE_PATH, SAVE_DIR, "/", FILENAME, "_", YEAR, SAVE_EXT, sep = "")
+  SAVE_PATH_ALL = paste(SAVE_PATH, SAVE_DIR, "/", FILENAME, "_", YEAR, SAVE_EXT, sep = "")
   print(SAVE_PATH)
-  save(df.year, file = SAVE_PATH)
+  save(df.year, file = SAVE_PATH_ALL)
   final
+
+  names(EDA.year) = c("month","ave.sea.temp","ave.air.temp")
+  SAVE_PATH_AVE = paste(SAVE_PATH, SAVE_DIR, "/", "ave_temp", "_", YEAR, SAVE_EXT, sep = "")
+  print(SAVE_PATH)
+  save(EDA.year, file = SAVE_PATH_AVE)
+
 }
 
 
