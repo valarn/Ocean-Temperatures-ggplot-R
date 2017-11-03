@@ -27,7 +27,7 @@ MONTHS = c("jan", "feb", "mar",
            "jul", "aug", "sep",
            "oct", "nov", "dec")
 EXT = ".txt"
-DATA_PATH = './data/'
+DATA_PATH = '~/Desktop/ma415-ocean-temp/data/'
 
 # cleans the data for a specific year == YEAR
 cleanAllMonthsOfYear <- function(YEAR) {
@@ -53,7 +53,7 @@ cleanAllMonthsOfYear <- function(YEAR) {
     for (j in 1:length(current)) {
       # get the row, and deparate the columns
       tmp <- current[j]
-      subtmp <- paste0(substr(tmp, 1, 21), substr(tmp, 69, 73), substr(tmp, 84, 89))
+      subtmp <- paste0("SubEast10", "Ship", "tm", substr(tmp, 1, 21), substr(tmp, 86, 89), substr(tmp, 70, 73))
 
       # isolate the Latitude and Longitude values to check if there are in our sub-region ranges
       # since as.numeric() gives warnings if it finds NA, we need to temporarily suprress warnings
@@ -70,17 +70,32 @@ cleanAllMonthsOfYear <- function(YEAR) {
       # FIX: --> error in feb 2010 w/ && (HOUR %in% 600:1800)
       if ((LAT %in% 600:2000) && (LON %in% 80:100)) {
         # add to the temporary data frame
+          if (HOUR == 1200) {
+            substr(subtmp, 14, 15) <- "+0"
+            df <- rbind(df, subtmp)
+          }
+          else if ((HOUR %in% 600:1199)) {
+            substr(subtmp, 14, 15) <- paste0("-", toString(1200-HOUR))
+            df <- rbind(df, subtmp)
+          }
+         else if ((HOUR %in% 1201:1800)) {
+          substr(subtmp, 14, 15) <- paste0("+", toString(HOUR-1200))
           df <- rbind(df, subtmp)
+         }
+          else {
+            substr(subtmp, 14, 15) <- "A "
+            df <- rbind(df, subtmp)
+          }
       }
     }
     
     # generate the columns with given sizes
     data.clean.month <-
-      read.fwf(textConnection(df), widths = c(4, 2, 2, 4, 5, 4, 1, 4, 2, 4))
+      read.fwf(textConnection(df), widths = c(9, 4, 2, 12, 5, 4, 4, 4))
     
     # name the columns
     names(data.clean.month) <-
-      c("YR", "MO", "DY", "HR", "LAT", "LON", "IT", "AT", "SI", "SST")
+      c("REGION","TYP","DIFF", "LOCALTIME", "LAT", "LON", "SST", "AT")
   
     # omit all rows with "NA" values in any column
     data.clean.month <- na.omit(data.clean.month)
