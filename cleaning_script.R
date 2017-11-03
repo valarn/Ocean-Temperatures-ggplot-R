@@ -27,7 +27,7 @@ MONTHS = c("jan", "feb", "mar",
            "jul", "aug", "sep",
            "oct", "nov", "dec")
 EXT = ".txt"
-DATA_PATH = '~/Desktop/ma415-ocean-temp/data/'
+DATA_PATH = './data/'
 
 # cleans the data for a specific year == YEAR
 cleanAllMonthsOfYear <- function(YEAR) {
