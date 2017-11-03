@@ -129,6 +129,19 @@ cleanAllMonthsOfYear <- function(YEAR) {
 
   }
   
+  #removing the quantile in AT
+  #removing the quantile in SST
+  df.year.with.extremes = df.year
+  
+  A = quantile(as.numeric(df.year$SST), prob = c(0.99))
+  B = quantile(as.numeric(df.year$SST), prob = c(0.01))
+  x = quantile(as.numeric(df.year$AT), prob = c(0.99))
+  y = quantile(as.numeric(df.year$AT), prob = c(0.01))
+  
+  df.year = df.year[df.year$AT < x,]
+  df.year = df.year[df.year$AT > y,]
+  df.year = df.year[df.year$SST < A,]
+  df.year = df.year[df.year$SST > B,]
   
   #global map
   global <- map_data("world")
@@ -159,8 +172,8 @@ cleanAllMonthsOfYear <- function(YEAR) {
     ggtitle(paste("Subcontinent East", YEAR, sep=" ")) +
     geom_text_repel(data=df2, aes(long, lat, label="")) + xlim(60,110) + ylim(0,40)
 
-  print(final)
-  
+  ggsave(paste("map", YEAR, ".png", sep=""))
+
   # create the save path for the clean data ans save it
   SAVE_PATH_ALL = paste(SAVE_PATH, SAVE_DIR, "/", FILENAME, "_", YEAR, SAVE_EXT, sep = "")
   print(SAVE_PATH)
@@ -171,6 +184,10 @@ cleanAllMonthsOfYear <- function(YEAR) {
   SAVE_PATH_AVE = paste(SAVE_PATH, SAVE_DIR, "/", "ave_temp", "_", YEAR, SAVE_EXT, sep = "")
   print(SAVE_PATH)
   save(EDA.year, file = SAVE_PATH_AVE)
+
+  SAVE_PATH_EXTEREMES = paste(SAVE_PATH, SAVE_DIR, "/", "data_with_extremes", "_", YEAR, SAVE_EXT, sep = "")
+  print(SAVE_PATH_EXTEREMES)
+  save(df.year.with.extremes, file = SAVE_PATH_EXTEREMES)
 
 }
 
