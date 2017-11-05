@@ -1,7 +1,5 @@
 ---
 title: "EDA"
-author: "alahmadi"
-date: "November 4, 2017"
 output: pdf_document
 ---
 ```{r}
@@ -13,7 +11,7 @@ matrix.jul.temp  = NULL
 for (k in 2001:2016) {
   YEAR = k
   
-  load(paste0("/Users/enasalahmadi/Downloads/projectData/cleaned_data/ave_temp_",YEAR,".Rdata"))
+  load(paste0("./cleaned_data/ave_temp_",YEAR,".Rdata"))
   plot(EDA.year[,2], type = "l",  main = paste("Average Sea Tempreture in", YEAR, sep = " ") , xlab = "month", ylab =    "Temperature", col = "blue")
   
   plot(EDA.year[,3], type = "l",  main = paste("Average Air Tempreture in", YEAR, sep = " ") , xlab = "month", ylab =    "Temperature", col = "red")
@@ -34,8 +32,9 @@ rownames(matrix.jul.temp) = c("2001","2002","2003","2004","2005","2006","2007","
 
 ```
 #Average Month Plots
-In this section we create seperate plots for each year both for the sea temperature and the air temperature. The plots are structured so that average temperature for each month is calculated and each data point on the plot shows the average temperature in each month.The lowest temperatures at sea are usually observed between December and January and for the rest of the months on average we are looking at slightly higher temperature. Since Subcontinental East is close to the equator and the sunshine is overhead the range of the temperatures is pretty condenced and small. Between 2001 and 2016 this range has been around 15 degrees celsius for the sea temperature. However, for the air temperature we observe that the range is even more limited around 10 degrees all year round. 
+In this section, we create separate plots for each year both for the sea temperature and the air temperature. The plots are structured so that average temperature for each month is calculated and each data point on the plot shows the average temperature in each month. The lowest temperatures at sea are usually observed between December and January and for the rest of the months on average we are looking at slightly higher temperature. Since Subcontinental East is close to the equator and the sunshine is overhead the range of the temperatures is pretty condensed and small. Between 2001 and 2016 this range has been around 15 degrees Celsius for the sea temperature. However, for the air temperature we observe that the range is even more limited around 10 degrees all year round. 
 *notice: The sharp points that indicate extremely cold temperatures indicate months that have missing data that the average temperature could not be calculated. 
+
 
 
 
