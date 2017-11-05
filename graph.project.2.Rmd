@@ -33,7 +33,9 @@ rownames(matrix.jul.temp) = c("2001","2002","2003","2004","2005","2006","2007","
 
 
 ```
-
+#Average Month Plots
+In this section we create seperate plots for each year both for the sea temperature and the air temperature. The plots are structured so that average temperature for each month is calculated and each data point on the plot shows the average temperature in each month.The lowest temperatures at sea are usually observed between December and January and for the rest of the months on average we are looking at slightly higher temperature. Since Subcontinental East is close to the equator and the sunshine is overhead the range of the temperatures is pretty condenced and small. Between 2001 and 2016 this range has been around 15 degrees celsius for the sea temperature. However, for the air temperature we observe that the range is even more limited around 10 degrees all year round. 
+*notice: The sharp points that indicate extremely cold temperatures indicate months that have missing data that the average temperature could not be calculated. 
 
 
 
@@ -49,7 +51,7 @@ plot(matrix.jul.temp[,2], type = "l",  main = "Average Air Tempreture of July" ,
 
 plot(matrix.jul.temp[,1], type = "l",  main = "Average Sea Tempreture of July" , xlab = "Year", ylab = "Temperature", col = "blue")
 ```
-
+For the second set of plots we chose January and July, and got the average temperature for all of the years for these specific months. January and July were chosen so our plots could be better illustrator of the coldest and the warmest months of the year. Again here we observe patterns that show Air temperature has a smaller range than that of Sea. However, in the plots we don't see any patterned movement that indicates increase or decrease of temperature over these 16 years.
 
 
 
