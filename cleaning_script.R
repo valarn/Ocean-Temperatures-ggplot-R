@@ -202,20 +202,22 @@ cleanAllMonthsOfYear <- function(YEAR) {
   # ----------------------- Saving Files -----------------------
 
   # saving the map
-  ggsave(paste("map", YEAR, ".png", sep=""))
+  MAP_NAME = paste("map", YEAR, ".png", sep="")
+  MAP_PATH = paste(SAVE_PATH, "maps/", sep = "") 
+  ggsave(filename=MAP_NAME, path=MAP_PATH)
 
-  # create the save path for the clean data ans save it
+  # create the save path for the clean data and save it
   SAVE_PATH_ALL = paste(SAVE_PATH, SAVE_DIR, "/", FILENAME, "_", YEAR, SAVE_EXT, sep = "")
   print(paste("Saving", SAVE_PATH_ALL))
   save(df.year, file = SAVE_PATH_ALL)
 
   # name the columns, create path and save the data for EDA
   names(EDA.year) = c("month","ave.sea.temp","ave.air.temp")
-  SAVE_PATH_AVE = paste(SAVE_PATH, SAVE_DIR, "/", "ave_temp", "_", YEAR, SAVE_EXT, sep = "")
+  SAVE_PATH_AVE = paste(SAVE_PATH, "eda_data/", "ave_temp", "_", YEAR, SAVE_EXT, sep = "")
   save(EDA.year, file = SAVE_PATH_AVE)
 
   # create the path and save data for EDA
-  SAVE_PATH_EXTEREMES = paste(SAVE_PATH, SAVE_DIR, "/", "data_with_extremes", "_", YEAR, SAVE_EXT, sep = "")
+  SAVE_PATH_EXTEREMES = paste(SAVE_PATH, "eda_data/", "data_with_extremes", "_", YEAR, SAVE_EXT, sep = "")
   save(df.year.with.extremes, file = SAVE_PATH_EXTEREMES)
 }
 
