@@ -12,7 +12,18 @@ We are focusing on maritime temperature data – air temperature and sea surface
 ### Outcome:
 The outcome of this project should be a dataset that is ready for analysis and a report or presentation
 that discusses the sources for the data and how it has been handled during preparation for analysis. 
+The repository contains the following: 
+- `cleaning_script.R`: the cleaning script we used to clean our data, and generate the maps and eda data
+- Writeup: the report of how we collected, cleaned, and presented the data. It also includes the EDA of the data, and an appendix with all the graphs and maps we generated. 
+- `cleaned_data`: the directory where all the cleaned data for years 2001-2016 are
+- `eda_data`: the directory where all the data we formatted and used for the EDA are
+- `maps`: the directory that contains the maps we generated per year in png format
+- `data`: contains all the raw data files, separated into sub-directory per year
+- `Data_Analysis.Rmd`: the R markdown we used for our EDA, which we included in the Writeup as well
+- `run.sh`: the bash script used to download the data and run the R script to clean the data and save them
+- `scripts`: a directory where helper scripts for `run.sh` reside
 
+ 
 ## Prerequisites:
 Make sure you install the following packages 
 - ggplot2
