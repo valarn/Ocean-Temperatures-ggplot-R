@@ -4,7 +4,7 @@ MONTHS=("jan" "feb" "mar" "apr" "may" "jun" "jul" "aug" "sep" "oct" "nov" "dec" 
 NAME="VOSClim_GTS_"
 EXT=".txt"
 URL="https://www1.ncdc.noaa.gov/pub/data/vosclim"
-CURL="curl -O"
+CURL="curl --silent --output /dev/null -O"
 
 # MUST pass a year as an arg
 YEAR=$1
@@ -19,8 +19,8 @@ do
     filename="${NAME}${i}_${YEAR}${EXT}"
     fullURL="${URL}/${YEAR}/${filename}"
     newCMD="${CURL} ${fullURL}"
-    echo ${newCMD}
-    eval $newCMD
+    eval $newCMD | tee tmp
+    echo "Downloaded ${filename}"
 done
 
 
