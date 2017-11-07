@@ -20,6 +20,7 @@ The repository contains the following:
 - `maps`: the directory that contains the maps we generated per year in png format
 - `data`: contains all the raw data files, separated into sub-directory per year
 - `Data_Analysis.Rmd`: the R markdown we used for our EDA, which we included in the Writeup as well
+- `Data_Analysis.pdf`: for unformatted analysis of data (all the plots). For a clean version, please see `Writeup.pdf`
 - `run.sh`: the bash script used to download the data and run the R script to clean the data and save them
 - `scripts`: a directory where helper scripts for `run.sh` reside
 
