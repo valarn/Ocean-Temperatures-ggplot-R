@@ -6,14 +6,19 @@ output: pdf_document
 matrix.jan.temp = NULL
 matrix.jul.temp  = NULL
 
-#### the following loop will generate the graphs 
-##### and it will build two matrices to track the average temprtures of two months through out the 16 years. 
+# the following loop will generate the graphs 
+# and it will build two matrices to track the average temprtures
+# of two months through out the 16 years. 
 for (YEAR in 2001:2016) {
   load(paste0("./eda_data/ave_temp_",YEAR,".Rdata"))
   
-  plot(EDA.year[,2], type = "l", main = paste("Average Sea Tempreture in", YEAR, sep = " ") , xlab = "month", ylab =    "Temperature", col = "blue")
+  plot(EDA.year[,2], type = "l", main = 
+         paste("Average Sea Tempreture in", YEAR, sep = " "),
+       xlab = "month", ylab = "Temperature", col = "blue")
   
-  plot(EDA.year[,3], type = "l", main = paste("Average Air Tempreture in", YEAR, sep = " ") , xlab = "month", ylab =    "Temperature", col = "red")
+  plot(EDA.year[,3], type = "l", main = 
+         paste("Average Air Tempreture in", YEAR, sep = " "),
+       xlab = "month", ylab = "Temperature", col = "red")
   
   jan.temp = EDA.year[1,2:3 ]
   jul.temp = EDA.year[7,2:3]
@@ -23,13 +28,18 @@ for (YEAR in 2001:2016) {
 }
 
 colnames(matrix.jan.temp) = c("SEA" , "AIR")
-rownames(matrix.jan.temp) = c("2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016")
+rownames(matrix.jan.temp) = 
+  c("2001","2002","2003","2004","2005","2006","2007","2008",
+    "2009","2010","2011","2012","2013","2014","2015","2016")
 
 colnames(matrix.jul.temp) = c("SEA" , "AIR")
-rownames(matrix.jul.temp) = c("2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016")
+rownames(matrix.jul.temp) = 
+  c("2001","2002","2003","2004","2005","2006","2007","2008",
+    "2009","2010","2011","2012","2013","2014","2015","2016")
 
 
 ```
+
 #Average Month Plots
 In this section, we create separate plots for each year both for the sea temperature and the air temperature. The plots are structured so that average temperature for each month is calculated and each data point on the plot shows the average temperature in each month. The lowest temperatures at sea are usually observed between December and January and for the rest of the months on average we are looking at slightly higher temperature. Since Subcontinental East is close to the equator and the sunshine is overhead the range of the temperatures is pretty condensed and small. Between 2001 and 2016 this range has been around 15 degrees Celsius for the sea temperature. However, for the air temperature we observe that the range is even more limited around 10 degrees all year round. 
 *notice: The sharp points that indicate extremely cold temperatures indicate months that have missing data that the average temperature could not be calculated. 
@@ -37,14 +47,19 @@ In this section, we create separate plots for each year both for the sea tempera
 
 ```{r}
 
-###### graphing the average tempruturs of JAN AND JUL across 16 years in a gragh. 
+# graphing the average tempruturs of JAN AND JUL across 16 years in a gragh. 
 
 #lines(matrix.jan.temp[,1])
-plot(matrix.jan.temp[,1], type = "l",  main = "Average Sea Tempreture of Jaunuary" , xlab = "Year", ylab = "Temperature", col = "red")
-plot(matrix.jan.temp[,2], type = "l",  main = "Average Air Tempreture of Jaunuary" , xlab = "Year", ylab = "Temperature", col = "blue")
+plot(matrix.jan.temp[,1], type = "l",  main = "Average Sea Tempreture of Jaunuary",
+     xlab = "Year", ylab = "Temperature", col = "red")
+plot(matrix.jan.temp[,2], type = "l",  main = "Average Air Tempreture of Jaunuary",
+     xlab = "Year", ylab = "Temperature", col = "blue")
 
-plot(matrix.jul.temp[,2], type = "l",  main = "Average Air Tempreture of July" , xlab = "Year", ylab = "Temperature", col = "red")
+plot(matrix.jul.temp[,2], type = "l",  main = "Average Air Tempreture of July",
+     xlab = "Year", ylab = "Temperature", col = "red")
 
-plot(matrix.jul.temp[,1], type = "l",  main = "Average Sea Tempreture of July" , xlab = "Year", ylab = "Temperature", col = "blue")
+plot(matrix.jul.temp[,1], type = "l",  main = "Average Sea Tempreture of July",
+     xlab = "Year", ylab = "Temperature", col = "blue")
 ```
+
 For the second set of plots we chose January and July, and got the average temperature for all of the years for these specific months. January and July were chosen so our plots could be better illustrator of the coldest and the warmest months of the year. Again here we observe patterns that show Air temperature has a smaller range than that of Sea. However, in the plots we don't see any patterned movement that indicates increase or decrease of temperature over these 16 years.
