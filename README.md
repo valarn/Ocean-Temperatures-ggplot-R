@@ -18,10 +18,16 @@ The outcome of this project should be a dataset that is ready for analysis and a
 that discusses the sources for the data and how it has been handled during preparation for analysis. 
 
 
+## Prerequisites:
+Make sure you install the following packages 
+- ggplot2
+- ggrepel 
+
+
 ## How to run:
 
 ### Manual
-1- Download the data text files from the source above. Save the data in directory `data`
+1- Download the data text files from the source http://www.vos.noaa.gov. Save the data in a directory, call it `data`
 
 2- Create the directory to save the cleaned data, call it `cleaned_data`
 
@@ -31,7 +37,9 @@ that discusses the sources for the data and how it has been handled during prepa
 ### Script (bash only)
 1- Open the Terminal
 
-2- Navigate to the cloned repo directory
+2- Clone this repository or download it as a .zip and extract all the files
+
+2- Navigate to the repository directory
 
 3- Copy the command `./run START END` and hit Enter. Replace `START` and `END` with the year numbers you want to clean (it will clean the years from START to END inclusive). If you want to clean the data for one year, just the same value for both. 
 
