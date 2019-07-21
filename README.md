@@ -1,4 +1,4 @@
-# MA415 Project #2: Data Cleaning
+# Ocean Temperature Subcontinent East region
 
 ## About the project: 
 
